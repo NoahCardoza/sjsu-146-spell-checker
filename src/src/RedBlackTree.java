@@ -18,6 +18,7 @@ public class RedBlackTree {
             return key.compareTo(n.key);   //this > that  >0
         }
 
+
         public boolean isLeaf() {
             if (this.equals(root) && this.leftChild == null &&
                     this.rightChild == null) return true;
@@ -27,6 +28,7 @@ public class RedBlackTree {
             }
             return false;
         }
+    }
 
         public boolean isLeaf(RedBlackTree.Node n) {
             if (n.equals(root) && n.leftChild == null && n.rightChild ==
@@ -77,6 +79,7 @@ public class RedBlackTree {
                     if(data.compareTo(temp.key) < 0){ //if data is smaller than temp
                         if(temp.leftChild == null) {
                             temp.leftChild = new Node(data);
+                            temp.leftChild.parent = temp;
                             break;
                         }
                         else
@@ -85,6 +88,7 @@ public class RedBlackTree {
                     else{
                         if(temp.rightChild == null) {
                             temp.rightChild = new Node(data);
+                            temp.rightChild.parent = temp;
                             break;
                         }
                         else
@@ -102,34 +106,35 @@ public class RedBlackTree {
             }
             else{
                 newNode.isRed = true;
-                if(newNode.leftChild == null && newNode.rightChild == null) //root node
-                    newNode.isRed = false; //roots are black
-                else{
-                    if(newNode.parent.isRed){ //if parent is red
-                        if(getAunt(newNode).isRed)//both parent and uncle are red
+                if(newNode.parent.isRed){ //if parent is red
+                    if(getAunt(newNode) != null) {
+                        if (getAunt(newNode).isRed)//both parent and uncle are red
                             fixTree(newNode); //recolor parent and uncle to black and newNode is red
-                        else{ //parent is red, uncle is black, a rotation must happen
-                            //CASE 1 - NEW NODE IS LEFT CHILD OF PARENT IS LEFT CHILD OF GRANDPARENT
-                            if(getGrandparent(newNode).leftChild == newNode.parent && newNode.parent.leftChild == newNode)
+                    }
+                    else{ //parent is red, uncle is black, a rotation must happen
+                            //CASE 1 - NEW NODE IS LEFT CHILD OF PARENT IS LEFT CHILD OF GRANDPARENT LL CASE
+                        if(getGrandparent(newNode).leftChild == newNode.parent && newNode.parent.leftChild == newNode)
                                 rotateRight(getGrandparent(newNode));
                             //CASE 2 - NEW NODE IS RIGHT CHILD OF PARENT IS LEFT CHILD OF GRANDPARENT
-                            if(getGrandparent(newNode).leftChild == newNode.parent && newNode.parent.rightChild == newNode) {
+                        if(getGrandparent(newNode).leftChild == newNode.parent && newNode.parent.rightChild == newNode) {
                                 rotateLeft(newNode.parent);
                                 rotateRight(getGrandparent(newNode));
                             }
-                            //CASE 3 - NEW NODE IS RIGHT CHILD OF PARENT IS RIGHT CHILD OF GRANDPARENT
-                            if(getGrandparent(newNode).rightChild == newNode.parent && newNode.parent.rightChild == newNode)
+                            //CASE 3 - NEW NODE IS RIGHT CHILD OF PARENT IS RIGHT CHILD OF GRANDPARENT RR CASE
+                        if(getGrandparent(newNode).rightChild == newNode.parent && newNode.parent.rightChild == newNode)
                                 rotateRight(getGrandparent(newNode));
                             //CASE 4 - NEW NODE IS LEFT CHILD OF PARENT IS RIGHT CHILD OF GRANDPARENT
-                            if(getGrandparent(newNode).rightChild == newNode.parent && newNode.parent.leftChild == newNode){
+                        if(getGrandparent(newNode).rightChild == newNode.parent && newNode.parent.leftChild == newNode){
                                 rotateRight(newNode.parent);
                                 rotateLeft(getGrandparent(newNode));
                             }
+                            if(newNode.leftChild == null && newNode.rightChild == null) //root node
+                                newNode.isRed = false; //roots are black
                         }
                     }
                 }
             }
-        }
+
 
         public RedBlackTree.Node lookup(String k) {
             //fill
@@ -140,7 +145,7 @@ public class RedBlackTree {
                 if (temp.key.equals(k))
                     return temp;
                 else {
-                    if (temp.key.compareTo(k) > 0) {
+                    if (temp.key.compareTo(k) < 0) {
                         if(temp.rightChild == null)
                             return null;
                         temp = temp.rightChild;
@@ -174,6 +179,13 @@ public class RedBlackTree {
 
         public void rotateLeft(RedBlackTree.Node n) {
             //fill
+            //n is the grandparent
+            Node parent = n.rightChild;
+            parent.leftChild = n;
+            parent.parent = n.parent;
+            n.parent = parent;
+            n.rightChild = parent.leftChild;
+            parent.leftChild.parent = n;
         }
 
         public void rotateRight(RedBlackTree.Node n) {
@@ -222,4 +234,15 @@ public class RedBlackTree {
             preOrderVisit(n.rightChild, v);
         }
     }
+
+class Main{
+    public static void main(String[] args) {
+        RedBlackTree tree = new RedBlackTree();
+        tree.insert("G");
+        tree.insert("U");
+        tree.insert("P");
+        tree.insert("X");
+        System.out.println();
+    }
 }
+
