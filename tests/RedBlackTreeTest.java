@@ -1,5 +1,14 @@
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +34,32 @@ public class RedBlackTreeTest {
         assertEquals(str, makeStringDetails(tree));
     }
 
-    //add tester for spell checker
+    @Test
+    public void spellCheckerTest() throws IOException, InterruptedException {
+        Cacheable dictionaryString = new Cacheable(
+                new File("dictionary.txt"),
+                URI.create("http://www.math.sjsu.edu/~foster/dictionary.txt")
+        );
+
+        Dictionary dictionary = new Dictionary();
+        dictionary.extend(dictionaryString.get().split("\\s+"));
+        
+        String text = Files.readString(Path.of("tests/prologues.txt"));
+        HashSet<String> unidentified = new HashSet<>();
+        
+        Arrays.stream(text.split("\\W+")).map(String::toLowerCase).forEach(word -> {
+            if (!dictionary.contains(word)) {
+                unidentified.add(word);   
+            }
+        });
+
+        for (String word :
+                unidentified) {
+            System.out.println(word);
+        }
+        System.out.printf("%s words could not be found%n", unidentified.size());
+    }
+
 
     public static String makeString(RedBlackTree<String> t) {
         class MyVisitor implements Visitor<String> {

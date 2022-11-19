@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Dictionary class that utilizes a Red Black tree under the
@@ -52,7 +53,7 @@ public class Dictionary {
      * @param words the array of words to be added
      */
     public void extend(String[] words) {
-        Arrays.stream(words).forEach(this::add);
+        Arrays.stream(fisherYatesShuffle(words)).forEach(this::add);
     }
 
     /**
@@ -79,5 +80,18 @@ public class Dictionary {
      */
     public boolean contains(String word) {
         return tree.contains(word);
+    }
+
+    static private String[] fisherYatesShuffle(String[] array) {
+        Random random = new Random(Double.doubleToLongBits(Math.random()));
+        String tmp;
+        int randomIndex;
+        for (int i = array.length - 1; i > 0; i--) {
+            randomIndex = random.nextInt(i);
+            tmp = array[i];
+            array[i] = array[randomIndex];
+            array[randomIndex] = tmp;
+        }
+        return array;
     }
 }

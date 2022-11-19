@@ -74,7 +74,6 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
         if (root == null)
             return null;
         while (true) {
-            System.out.println(temp.getKey());
             if (temp.getKey().equals(data))
                 return temp;
             else {
