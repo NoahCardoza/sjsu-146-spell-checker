@@ -3,6 +3,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Random;
 
 class Main {
     /**
@@ -26,16 +27,39 @@ class Main {
         return response.body();
     }
 
-    public static void main(String[] args) {
+    static private void fisherYatesShuffle(String[] array) {
+        Random random = new Random(Double.doubleToLongBits(Math.random()));
+        String tmp;
+        int randomIndex;
+        for (int i = array.length - 1; i > 0; i--) {
+            randomIndex = random.nextInt(i);
+            tmp = array[i];
+            array[i] = array[randomIndex];
+            array[randomIndex] = tmp;
+        }
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         RedBlackTree<String> tree = new RedBlackTree<>();
-        tree.insert("A");
-        tree.insert("B");
-        tree.insert("C");
-        tree.insert("D");
-//        tree.insert("G");
-//        tree.insert("U");
-//        tree.insert("P");
-        tree.printTree();
-//        tree.insert("X");
+
+        String[] words = fetchDictionary().split("\\s+");
+        fisherYatesShuffle(words);
+
+//        String[] words = """
+//              iodization
+//              senkaku
+//              orinoko
+//                """.split("\\s+");
+
+        for (int i = 0; i < words.length; i++) {
+//            System.out.println(words[i]);
+            tree.insert(words[i]);
+            if (i % 10000 == 0) {
+
+                System.out.println(i);
+            }
+        }
+
+        tree.inOrderVisit(node -> System.out.print(node.getKey()));
     }
 }
