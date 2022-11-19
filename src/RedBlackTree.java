@@ -29,15 +29,15 @@ public class RedBlackTree<T extends Comparable<T>> {
      * @return the new node that was just added
      */
     public Node<T> addNode(T data) {   //this < that  <0.  this > that  >0 fill
-        if(root == null) {
+        if (root == null) {
             root = new Node<>(data);
             return root;
         }
 
         Node<T> temp = root;
         while (true) {
-            if(data.compareTo(temp.key) < 0){ //if data is smaller than temp
-                if(temp.left == null) {
+            if (data.compareTo(temp.key) < 0){ //if data is smaller than temp
+                if (temp.left == null) {
                     temp.left = new Node<>(data, temp);
                     return temp.left;
                 }
@@ -45,7 +45,7 @@ public class RedBlackTree<T extends Comparable<T>> {
                     temp = temp.left;
                 }
             } else {
-                if(temp.right == null) {
+                if (temp.right == null) {
                     temp.right = new Node<>(data, temp);
                     return temp.right;
                 }
@@ -71,27 +71,26 @@ public class RedBlackTree<T extends Comparable<T>> {
                     fixTree(newNode); //recolor parent and uncle to black and newNode is red
             } else { //parent is red, uncle is black, a rotation must happen
                 //CASE 1 - NEW NODE IS LEFT CHILD OF PARENT IS LEFT CHILD OF GRANDPARENT LL CASE
-                if(newNode.getGrandparent().left == newNode.parent && newNode.parent.left == newNode)
-                        rotateRight(newNode.getGrandparent());
+                if (newNode.getGrandparent().left == newNode.parent && newNode.parent.left == newNode)
+                    rotateRight(newNode.getGrandparent());
                     //CASE 2 - NEW NODE IS RIGHT CHILD OF PARENT IS LEFT CHILD OF GRANDPARENT
-                if(newNode.getGrandparent().left == newNode.parent && newNode.parent.right == newNode) {
-                        rotateLeft(newNode.parent);
-                        rotateRight(newNode.getGrandparent());
-                    }
+                if (newNode.getGrandparent().left == newNode.parent && newNode.parent.right == newNode) {
+                    rotateLeft(newNode.parent);
+                    rotateRight(newNode.getGrandparent());
+                }
                     //CASE 3 - NEW NODE IS RIGHT CHILD OF PARENT IS RIGHT CHILD OF GRANDPARENT RR CASE
-                if(newNode.getGrandparent().right == newNode.parent && newNode.parent.right == newNode)
-                        rotateRight(newNode.getGrandparent());
+                if (newNode.getGrandparent().right == newNode.parent && newNode.parent.right == newNode)
+                    rotateRight(newNode.getGrandparent());
                     //CASE 4 - NEW NODE IS LEFT CHILD OF PARENT IS RIGHT CHILD OF GRANDPARENT
-                if(newNode.getGrandparent().right == newNode.parent && newNode.parent.left == newNode){
-                        rotateRight(newNode.parent);
-                        rotateLeft(newNode.getGrandparent());
-                    }
-                if(newNode.left == null && newNode.right == null) //root node
+                if (newNode.getGrandparent().right == newNode.parent && newNode.parent.left == newNode){
+                    rotateRight(newNode.parent);
+                    rotateLeft(newNode.getGrandparent());
+                }
+                if (newNode.left == null && newNode.right == null) //root node
                         newNode.isRed = false; //roots are black
                 }
         }
     }
-
 
     public Node<T> lookup(T k) {
         //fill
@@ -126,10 +125,8 @@ public class RedBlackTree<T extends Comparable<T>> {
     }
 
     public Node<T> getAunt(Node<T> n) {
-        //fill
         return getSibling(n.parent);
     }
-
 
     public void rotateLeft(Node<T> n) {
         //fill

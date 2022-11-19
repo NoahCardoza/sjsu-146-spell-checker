@@ -1,8 +1,10 @@
 public class Node<T extends Comparable<T>> {
+    public enum Color { RED, BLACK }
     T key;
     Node<T> parent;
     Node<T> left;
     Node<T> right;
+    Color color;
     boolean isRed;
 
     public Node(T data) {
@@ -51,5 +53,49 @@ public class Node<T extends Comparable<T>> {
 
     public Node<T> getParent() {
         return parent;
+    }
+
+    public T getKey() {
+        return key;
+    }
+
+    public void setKey(T key) {
+        this.key = key;
+    }
+
+    public void setParent(Node<T> parent) {
+        this.parent = parent;
+    }
+
+    public Node<T> getLeft() {
+        return left;
+    }
+
+    public void setLeft(Node<T> left) {
+        this.left = left;
+    }
+
+    public Node<T> getRight() {
+        return right;
+    }
+
+    public void setRight(Node<T> right) {
+        this.right = right;
+    }
+
+    public boolean isRed() {
+        return isRed;
+    }
+
+    public void setRed(boolean red) {
+        isRed = red;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

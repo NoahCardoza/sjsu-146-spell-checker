@@ -28,9 +28,13 @@ class Main {
 
     public static void main(String[] args) {
         RedBlackTree<String> tree = new RedBlackTree<>();
-        tree.insert("G");
-        tree.insert("U");
-        tree.insert("P");
+        tree.insert("A");
+        tree.insert("B");
+        tree.insert("C");
+        tree.insert("D");
+//        tree.insert("G");
+//        tree.insert("U");
+//        tree.insert("P");
         tree.printTree();
 //        tree.insert("X");
     }
