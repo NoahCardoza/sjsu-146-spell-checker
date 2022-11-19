@@ -1,9 +1,15 @@
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * An extension of the binary tree implementing red black tree balancing logic.
  *
  * @param <T> the data type to store in the nodes
  */
-public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> {
+public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      * Inserts to and balances the tree.
      *

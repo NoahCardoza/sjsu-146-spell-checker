@@ -1,4 +1,10 @@
-public class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Node<T extends Comparable<T>> implements Comparable<Node<T>>, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public enum Color { RED, BLACK }
     private final T key;
     private Node<T> parent;

@@ -1,9 +1,15 @@
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * A standard binary search tree implementation.
  *
  * @param <T> the type of data stored in the nodes
  */
-public class BinarySearchTree<T extends Comparable<T>> {
+public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private Node<T> root;
 
     /**
@@ -68,6 +74,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
         if (root == null)
             return null;
         while (true) {
+            System.out.println(temp.getKey());
             if (temp.getKey().equals(data))
                 return temp;
             else {
