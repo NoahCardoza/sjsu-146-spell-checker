@@ -31,6 +31,7 @@ class Main {
         tree.insert("G");
         tree.insert("U");
         tree.insert("P");
-        tree.insert("X");
+        tree.printTree();
+//        tree.insert("X");
     }
 }
