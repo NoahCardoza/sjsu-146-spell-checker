@@ -10,5 +10,5 @@ public interface Setter<T extends Comparable<T>> {
      * @param node the instance to preform the set on
      * @param value the value to set to
      */
-    void set(Node<T> node, Node<T> value);
+    void set(RBNode<T> node, RBNode<T> value);
 }

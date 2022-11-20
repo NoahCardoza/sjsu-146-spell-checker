@@ -9,5 +9,5 @@ public interface Visitor<T extends Comparable<T>> {
      *
      * @param n the visited node
      */
-    void visit(Node<T> n);
+    void visit(RBNode<T> n);
 }

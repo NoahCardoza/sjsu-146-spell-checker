@@ -17,7 +17,7 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> i
      */
     @Override
     public void insert(T data) {
-        Node<T> node = new Node<>(data);
+        RBNode<T> node = new RBNode<>(data);
         place(node);
         repair(node);
     }
@@ -28,9 +28,9 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> i
      *
      * @param node the node to preform the repair on
      */
-    private void repair(Node<T> node) {
+    private void repair(RBNode<T> node) {
         if (node.isRoot()) {
-            node.setColor(Node.Color.BLACK);
+            node.setColor(RBNode.Color.BLACK);
             return;
         }
 
@@ -73,8 +73,8 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> i
      * @param nodeSetter the setter to be called on the node
      * @param pivotSetter the setter to be called on the pivot
      */
-    private void rotate(Node<T> node, Getter<T> direction, Getter<T> opposite, Setter<T> nodeSetter, Setter<T> pivotSetter) {
-        Node<T> pivot = opposite.get(node);
+    private void rotate(RBNode<T> node, Getter<T> direction, Getter<T> opposite, Setter<T> nodeSetter, Setter<T> pivotSetter) {
+        RBNode<T> pivot = opposite.get(node);
         if (node.isRoot()) {
             setRoot(pivot);
             pivot.setParent(null);
@@ -87,8 +87,8 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> i
             }
         }
 
-        pivot.setColor(Node.Color.BLACK);
-        node.setColor(Node.Color.RED);
+        pivot.setColor(RBNode.Color.BLACK);
+        node.setColor(RBNode.Color.RED);
 
         node.setParent(pivot);
 
@@ -104,8 +104,8 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> i
      *
      * @param node the node to preform the operation on
      */
-    private void rotateLeft(Node<T> node) {
-        rotate(node, Node::getLeft, Node::getRight, Node::setRight, Node::setLeft);
+    private void rotateLeft(RBNode<T> node) {
+        rotate(node, RBNode::getLeft, RBNode::getRight, RBNode::setRight, RBNode::setLeft);
     }
 
     /**
@@ -113,8 +113,8 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> i
      *
      * @param node the node to preform the operation on
      */
-    private void rotateRight(Node<T> node) {
-        rotate(node, Node::getRight, Node::getLeft, Node::setLeft, Node::setRight);
+    private void rotateRight(RBNode<T> node) {
+        rotate(node, RBNode::getRight, RBNode::getLeft, RBNode::setLeft, RBNode::setRight);
     }
 
     /**
@@ -125,10 +125,10 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> i
      *
      * @param node the node to preform the operation on
      */
-    private void recolor(Node<T> node) {
-        node.getParent().setColor(Node.Color.BLACK);
-        node.getAunt().setColor(Node.Color.BLACK);
-        node.getGrandparent().setColor(Node.Color.RED);
+    private void recolor(RBNode<T> node) {
+        node.getParent().setColor(RBNode.Color.BLACK);
+        node.getAunt().setColor(RBNode.Color.BLACK);
+        node.getGrandparent().setColor(RBNode.Color.RED);
         repair(node.getGrandparent());
     }
 }

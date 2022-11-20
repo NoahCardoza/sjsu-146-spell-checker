@@ -10,7 +10,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private Node<T> root;
+    private RBNode<T> root;
 
     /**
      * Constructs a BinarySearchTree instance.
@@ -25,7 +25,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
      * @param data the data to place into the tree
      */
     public void insert(T data) {
-        place(new Node<>(data));
+        place(new RBNode<>(data));
     }
 
     /**
@@ -34,13 +34,13 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
      *
      * @param node the node to insert into the tree
      */
-    public void place(Node<T> node) {   //this < that  <0.  this > that  >0 fill
+    public void place(RBNode<T> node) {   //this < that  <0.  this > that  >0 fill
         if (root == null) {
             root = node;
             return;
         }
 
-        Node<T> temp = root;
+        RBNode<T> temp = root;
         while (true) {
             if (node.compareTo(temp) < 0) { //if data is smaller than temp
                 if (temp.getLeft() == null) {
@@ -69,8 +69,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
      *
      * @return a reference to the node if found or null
      */
-    public Node<T> find(T data) {
-        Node<T> temp = root;
+    public RBNode<T> find(T data) {
+        RBNode<T> temp = root;
 
         if (root == null) {
             return null;
@@ -133,7 +133,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
         postOrderVisit(root, v);
     }
 
-    private void preOrderVisit(Node<T> n, Visitor<T> v) {
+    private void preOrderVisit(RBNode<T> n, Visitor<T> v) {
         if (n == null) {
             return;
         }
@@ -142,7 +142,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
         preOrderVisit(n.getRight(), v);
     }
 
-    private void inOrderVisit(Node<T> n, Visitor<T> v) {
+    private void inOrderVisit(RBNode<T> n, Visitor<T> v) {
         if (n == null) {
             return;
         }
@@ -151,7 +151,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
         inOrderVisit(n.getRight(), v);
     }
 
-    private void postOrderVisit(Node<T> n, Visitor<T> v) {
+    private void postOrderVisit(RBNode<T> n, Visitor<T> v) {
         if (n == null) {
             return;
         }
@@ -160,11 +160,11 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
         v.visit(n);
     }
 
-    protected Node<T> getRoot() {
+    protected RBNode<T> getRoot() {
         return root;
     }
 
-    protected void setRoot(Node<T> root) {
+    protected void setRoot(RBNode<T> root) {
         this.root = root;
     }
 }

@@ -11,5 +11,5 @@ public interface Getter<T extends Comparable<T>> {
      *
      * @return either the left or right node
      */
-    Node<T> get(Node<T> node);
+    RBNode<T> get(RBNode<T> node);
 }

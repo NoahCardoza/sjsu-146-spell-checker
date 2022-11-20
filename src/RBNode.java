@@ -1,15 +1,15 @@
 import java.io.Serial;
 import java.io.Serializable;
 
-public class Node<T extends Comparable<T>> implements Comparable<Node<T>>, Serializable {
+public class RBNode<T extends Comparable<T>> implements Comparable<RBNode<T>>, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     public enum Color { RED, BLACK }
-    private final T key;
-    private Node<T> parent;
-    private Node<T> left;
-    private Node<T> right;
+    private final T data;
+    private RBNode<T> parent;
+    private RBNode<T> left;
+    private RBNode<T> right;
     private Color color;
 
     /**
@@ -17,8 +17,8 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>>, Seria
      *
      * @param data the data the node will hold
      */
-    public Node(T data) {
-        key = data;
+    public RBNode(T data) {
+        this.data = data;
         color = Color.RED;
         parent = null;
         left = null;
@@ -60,8 +60,8 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>>, Seria
      * @return -1, 0, 1 depending on the relation between the nodes
      */
     @Override
-    public int compareTo(Node<T> node) {
-        return key.compareTo(node.key);
+    public int compareTo(RBNode<T> node) {
+        return data.compareTo(node.data);
     }
 
     /**
@@ -69,7 +69,7 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>>, Seria
      *
      * @return the parent's sibling
      */
-    public Node<T> getAunt() {
+    public RBNode<T> getAunt() {
         return parent.getSibling();
     }
 
@@ -78,7 +78,7 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>>, Seria
      *
      * @return the parents other child
      */
-    public Node<T> getSibling() {
+    public RBNode<T> getSibling() {
         if (isLeftChild()) {
             return parent.right;
         } else {
@@ -91,35 +91,35 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>>, Seria
      *
      * @return two parent nodes above the current node
      */
-    public Node<T> getGrandparent() {
+    public RBNode<T> getGrandparent() {
         return this.parent.parent;
     }
 
-    public Node<T> getParent() {
+    public RBNode<T> getParent() {
         return parent;
     }
 
-    public T getKey() {
-        return key;
+    public T getData() {
+        return data;
     }
 
-    public void setParent(Node<T> parent) {
+    public void setParent(RBNode<T> parent) {
         this.parent = parent;
     }
 
-    public Node<T> getLeft() {
+    public RBNode<T> getLeft() {
         return left;
     }
 
-    public void setLeft(Node<T> left) {
+    public void setLeft(RBNode<T> left) {
         this.left = left;
     }
 
-    public Node<T> getRight() {
+    public RBNode<T> getRight() {
         return right;
     }
 
-    public void setRight(Node<T> right) {
+    public void setRight(RBNode<T> right) {
         this.right = right;
     }
 
