@@ -1,6 +1,4 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -93,7 +91,7 @@ public class Dictionary {
      */
     public DictionaryEntry define(String word) {
         word = word.strip().toLowerCase();
-        Node<DictionaryEntry> node = tree.find(new DictionaryEntry(word.strip().toLowerCase()));
+        RBNode<DictionaryEntry> node = tree.find(new DictionaryEntry(word.strip().toLowerCase()));
         if (node == null) {
             if (word.endsWith("ing")) {
                 String substr = word.substring(0, word.length() - 3);
