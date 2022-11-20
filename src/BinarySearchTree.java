@@ -71,21 +71,26 @@ public class BinarySearchTree<T extends Comparable<T>> implements Serializable {
      */
     public Node<T> find(T data) {
         Node<T> temp = root;
-        if (root == null)
+
+        if (root == null) {
             return null;
+        }
+
         while (true) {
-            if (temp.getKey().equals(data))
+            int cmp = temp.getData().compareTo(data);
+
+            if (cmp == 0) {
                 return temp;
-            else {
-                if (temp.getKey().compareTo(data) < 0) {
-                    if (temp.getRight() == null)
-                        return null;
-                    temp = temp.getRight();
-                } else {
-                    if (temp.getLeft() == null)
-                        return null;
-                    temp = temp.getLeft();
-                }
+            }
+
+            if (cmp < 0) {
+                if (temp.getRight() == null)
+                    return null;
+                temp = temp.getRight();
+            } else {
+                if (temp.getLeft() == null)
+                    return null;
+                temp = temp.getLeft();
             }
         }
     }
