@@ -1,5 +1,7 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -7,7 +9,7 @@ import java.util.Random;
  * hood to preform word lookups on.
  */
 public class Dictionary {
-    private final RedBlackTree<String> tree;
+    private final RedBlackTree<DictionaryEntry> tree;
 
     /**
      * Constructs an empty dictionary.
@@ -16,7 +18,7 @@ public class Dictionary {
         tree = new RedBlackTree<>();
     }
 
-    private Dictionary(RedBlackTree<String> tree) {
+    private Dictionary(RedBlackTree<DictionaryEntry> tree) {
         this.tree = tree;
     }
 
@@ -33,7 +35,7 @@ public class Dictionary {
     public static Dictionary load(File file) throws IOException, ClassNotFoundException {
         FileInputStream fileInputStream = new FileInputStream(file);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        RedBlackTree<String> tree = (RedBlackTree<String>) objectInputStream.readObject();
+        RedBlackTree<DictionaryEntry> tree = (RedBlackTree<DictionaryEntry>) objectInputStream.readObject();
         objectInputStream.close();
         return new Dictionary(tree);
     }
@@ -43,7 +45,7 @@ public class Dictionary {
      *
      * @param word the word to add
      */
-    public void add(String word) {
+    public void add(DictionaryEntry word) {
         tree.insert(word);
     }
 
@@ -52,8 +54,8 @@ public class Dictionary {
      *
      * @param words the array of words to be added
      */
-    public void extend(String[] words) {
-        Arrays.stream(fisherYatesShuffle(words)).forEach(this::add);
+    public void extend(List<DictionaryEntry> words) {
+        fisherYatesShuffle(words).forEach(this::add);
     }
 
     /**
@@ -79,18 +81,68 @@ public class Dictionary {
      * @return whether the word exists in the dictionary
      */
     public boolean contains(String word) {
-        return tree.contains(word);
+        return define(word) != null;
     }
 
-    static private String[] fisherYatesShuffle(String[] array) {
+    /**
+     * Search up a word and return a list of definitions.
+     *
+     * @param word the word to search for
+     *
+     * @return a list of definitions or null if not found
+     */
+    public DictionaryEntry define(String word) {
+        word = word.strip().toLowerCase();
+        Node<DictionaryEntry> node = tree.find(new DictionaryEntry(word.strip().toLowerCase()));
+        if (node == null) {
+            if (word.endsWith("ing")) {
+                String substr = word.substring(0, word.length() - 3);
+                // calling -> call
+                DictionaryEntry entry = define(substr);
+                if (entry == null) {
+                    // coming -> come
+                    return define(substr + "e");
+                }
+                return entry;
+            }
+            if (word.endsWith("ed")) {
+                String substr = word.substring(0, word.length() - 1);
+                // managed -> manage
+                DictionaryEntry entry = define(substr);
+                if (entry == null) {
+                    // colored -> color
+                    entry = define(substr.substring(0, substr.length() - 1));
+                }
+                if (entry == null) {
+                    // kidnapped -> kidnap
+                    return define(substr.substring(0, substr.length() - 1));
+                }
+                return entry;
+            }
+            if (word.endsWith("s")) {
+                String substr = word.substring(0, word.length() - 1);
+                // starts -> start
+                DictionaryEntry entry = define(substr);
+                if (entry == null && substr.endsWith("e")) {
+                    // dispatches -> dispatch
+                    return define(substr.substring(0, substr.length() - 1));
+                }
+                return entry;
+            }
+            return null;
+        }
+        return node.getData();
+    }
+
+    private List<DictionaryEntry> fisherYatesShuffle(List<DictionaryEntry> array) {
         Random random = new Random(Double.doubleToLongBits(Math.random()));
-        String tmp;
+        DictionaryEntry tmp;
         int randomIndex;
-        for (int i = array.length - 1; i > 0; i--) {
+        for (int i = array.size() - 1; i > 0; i--) {
             randomIndex = random.nextInt(i);
-            tmp = array[i];
-            array[i] = array[randomIndex];
-            array[randomIndex] = tmp;
+            tmp = array.get(i);
+            array.set(i, array.get(randomIndex));
+            array.set(randomIndex, tmp);
         }
         return array;
     }
