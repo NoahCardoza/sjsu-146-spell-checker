@@ -4,6 +4,9 @@ dictionary.txt
 # Large binary file that shouldn't be checked into VCS
 dictionary.dat
 
+# Collection of XML files that store words and thier definitions
+/dictionary/
+
 # Created by https://www.toptal.com/developers/gitignore/api/java,intellij,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij,macos
 
